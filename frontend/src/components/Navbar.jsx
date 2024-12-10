@@ -1,5 +1,61 @@
+import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
+import { LogOut, MessageSquare, Settings, User } from "lucide-react";
+
 function Navbar() {
-  return <div>Navbar</div>;
+  const { logout, authUser } = useAuthStore();
+
+  return (
+    <header className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-40">
+      <div className="container mx-auto px-4 h-16">
+        <div className="flex items-center justify-between h-full">
+          {/* left section */}
+          <div className="flex items-center gap-8">
+            <Link
+              to="/"
+              className="flex items-center gap-2.5 hover:opacity-80 transition-all"
+            >
+              <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                <MessageSquare className="w-5 h-5 text-primary" />
+              </div>
+              <h1 className="text-lg font-bold">ChatX</h1>
+            </Link>
+          </div>
+
+          {/* right section */}
+          <div className="flex items-center gap-2">
+            {/* settings */}
+            <Link
+              to={"/settings"}
+              className={`btn btn-sm gap-2 transition-colors`}
+            >
+              <Settings className="size-4" />
+              <span className="hidden md:inline">Settings</span>
+            </Link>
+
+            {authUser && (
+              <>
+                {/* profile */}
+                <Link
+                  to={"/profile"}
+                  className={`btn btn-sm gap-2 transition-colors`}
+                >
+                  <User className="size-5" />
+                  <span className="hidden md:inline">Profile</span>
+                </Link>
+
+                {/* logout */}
+                <button className="flex gat-2 items-center" onClick={logout}>
+                  <LogOut className="size-5" />
+                  <span className="hidden md:inline">Logout</span>
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
 }
 
 export default Navbar;
